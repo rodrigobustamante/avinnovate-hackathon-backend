@@ -1,16 +1,32 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import { mongoInitialize } from './configs/mongoose.js';
+import express from 'express'
+import { mongoInitialize } from './db';
+import { createNotification } from './controllers/notification';
 
-dotenv.config();
+const app = express()
 
-const app = express();
+app.use(express.json());
 
-// Define routes and middleware here
 
-const port = process.env.PORT || 3000;
+const PORT = 8080
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT  }`)
+});
 
-app.listen(port, () => {
-  mongoInitialize();
-  console.log(`Server listening on port ${port}`);
+app.post('/notification', async (req, res) => {
+  if (!Object.keys(req.body).length) {
+    res.status(400).json({
+    message: 'Request body cannot be empty'
+  })
+  }
+  const { title, description, read, eventId, sendAt } = req.body;
+
+  const notification = await createNotification({ title, description, read, eventId, sendAt })
+  console.log('notification', notification);
+  
+  if(notification.success) {
+    console.log('data', notification.data);
+    res.status(201).json(notification.data)
+  } else {
+    res.status(400).json({message: notification.message})
+  }
 });

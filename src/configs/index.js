@@ -1,1 +1,0 @@
-export { mongoInitialize } from './mongoose';
