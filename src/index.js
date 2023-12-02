@@ -1,14 +1,18 @@
 import express from 'express'
 import { mongoInitialize } from './db';
 import { createNotification } from './controllers/notification';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express()
 
 app.use(express.json());
 
+const PORT = process.env.PORT;
 
-const PORT = 8080
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await mongoInitialize();
   console.log(`Server running on port ${PORT  }`)
 });
 

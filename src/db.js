@@ -1,13 +1,19 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const DB = 'mongodb+srv://admin:9sYtYunkFxBvt7W8rCvG@cluster0.maytdec.mongodb.net/?retryWrites=true&w=majority'
+export const mongoInitialize = async () => {
+  const DB = process.env.MONGO_DATABASE_URL;
 
-export const mongoInitialize = () => {
-  mongoose.set("strictQuery", true);
-  mongoose.connect(DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }).then(() => {
-    console.log("Database Connected");
-  }).catch((err) => console.log(err));
-}
+  mongoose.set('strictQuery', true);
+  console.log({DB});
+
+  try {
+    await mongoose.connect(DB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+
+    console.log('Database connected');
+  } catch (error) {
+    console.log(error);
+  };
+};

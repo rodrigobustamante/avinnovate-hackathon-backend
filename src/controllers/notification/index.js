@@ -1,10 +1,12 @@
-import { Notification } from "../../models/notificationSchema";
+import { Notification } from '../../models/notificationSchema';
 
-export function createNotification(data) {
+export function createNotification (data) {
   try {
     const notification = new Notification(data);
     const newNotification = notification.save();
-    if(!newNotification) throw new Error("Error creating notification");
+
+    if (!newNotification) throw new Error('Error creating notification');
+
     return {
       success: true,
       data: newNotification,
