@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import {  } from './configs';
+import { mongoInitialize } from './configs/mongoose.js';
 
 dotenv.config();
 

@@ -1,1 +1,1 @@
-export {  } from './conn';
+export { mongoInitialize } from './mongoose';
