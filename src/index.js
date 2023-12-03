@@ -13,7 +13,8 @@ const db = new firebase();
 const PORT = process.env.PORT;
 
 app.listen(PORT, async () => {
-  console.log(`Server running on port ${PORT}`)
+  console.log(`Firebase connected`);
+  console.log(`Server running on port ${PORT}`);
 });
 
 app.post('/notifications', (req, res) => createNotifications(req, res, db));
