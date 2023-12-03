@@ -1,11 +1,19 @@
-import express from 'express'
-import { createEvents, createNotifications, createUsers, createUserEvents, editUser } from './controllers';
+import express from 'express';
+import {
+  getEvent,
+  getEvents,
+  createEvents,
+  createNotifications,
+  createUsers,
+  createUserEvents,
+  editUser,
+} from './controllers';
 import dotenv from 'dotenv';
 import { firebase } from './configs';
 
 dotenv.config();
 
-const app = express()
+const app = express();
 
 app.use(express.json());
 
@@ -22,3 +30,5 @@ app.post('/events', (req, res) => createEvents(req, res, db));
 app.post('/users', (req, res) => createUsers(req, res, db));
 app.put('/users', (req, res) => editUser(req, res, db));
 app.post('/user-events', (req, res) => createUserEvents(req, res, db));
+app.get('/events/:id', (req, res) => getEvent(req, res, db));
+app.get('/events', (req, res) => getEvents(req, res, db));
