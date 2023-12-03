@@ -1,6 +1,6 @@
 import { NOTIFICATIONS_COLLECTION, EVENTS_COLLECTION } from "../../utils";
 import weatherPrompt from '../../utils/prompts/weatherPrompt';
-import { generateCompletion } from '../../utils/openAi';
+import { generateCompletion } from '../../utils';
 import { formatFirestoreTimestamp } from '../../utils/helpers';
 
 export const createWeatherNotifications = async (req, res, db) => {
