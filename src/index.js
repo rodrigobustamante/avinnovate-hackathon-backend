@@ -4,6 +4,7 @@ import {
   getEvents,
   createEvents,
   createNotifications,
+  createWeatherNotifications,
   createUsers,
   createUserEvents,
   editUser,
@@ -26,6 +27,7 @@ app.listen(PORT, async () => {
 });
 
 app.post('/notifications', (req, res) => createNotifications(req, res, db));
+app.post('/notifications/weather', (req, res) => createWeatherNotifications(req, res, db));
 app.post('/events', (req, res) => createEvents(req, res, db));
 app.post('/users', (req, res) => createUsers(req, res, db));
 app.put('/users', (req, res) => editUser(req, res, db));
