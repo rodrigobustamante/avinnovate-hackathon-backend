@@ -18,10 +18,25 @@ export const editUser = async (req, res, db) => {
     const { clerkId } = body;
 
     const users = await db.getCollection(USERS_COLLECTION);
-    const userToEdit = users.find((user) => user.clerkId === clerkId);
+    const userToFind = users.find((user) => user.clerkId === clerkId);
 
-    const user = await db.setDocument(USERS_COLLECTION, userToEdit.clerkId, {
-      ...body
+    if (!userToFind) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const { id, oneSignalIds = [] } = userToFind;
+    const { oneSignalId } = body;
+
+    const newOneSignalIds = [...oneSignalIds];
+    newOneSignalIds.indexOf(oneSignalId) === -1 &&
+      newOneSignalIds.push(oneSignalId);
+
+    delete body.oneSignalId;
+
+    const user = await db.setDocument(USERS_COLLECTION, id, {
+      ...body,
+      id,
+      oneSignalIds: newOneSignalIds,
     });
 
     return res.status(201).json({ message: 'User edited', user });

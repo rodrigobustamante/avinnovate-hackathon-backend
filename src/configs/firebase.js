@@ -24,7 +24,10 @@ class firebase {
 
   async getCollection(collection) {
     const snapshot = await this.database?.collection(collection).get();
-    const data = snapshot?.docs.map((doc) => doc.data());
+    const data = snapshot?.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
     return data;
   }
