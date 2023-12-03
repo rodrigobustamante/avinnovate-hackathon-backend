@@ -1,7 +1,7 @@
 import express from 'express'
-import { mongoInitialize } from './db';
-import { createNotification } from './controllers/notification';
+import { createEvents, createNotifications, createUsers, createUserEvents, editUser } from './controllers';
 import dotenv from 'dotenv';
+import { firebase } from './configs';
 
 dotenv.config();
 
@@ -9,28 +9,15 @@ const app = express()
 
 app.use(express.json());
 
+const db = new firebase();
 const PORT = process.env.PORT;
 
 app.listen(PORT, async () => {
-  await mongoInitialize();
-  console.log(`Server running on port ${PORT  }`)
+  console.log(`Server running on port ${PORT}`)
 });
 
-app.post('/notification', async (req, res) => {
-  if (!Object.keys(req.body).length) {
-    res.status(400).json({
-    message: 'Request body cannot be empty'
-  })
-  }
-  const { title, description, read, eventId, sendAt } = req.body;
-
-  const notification = await createNotification({ title, description, read, eventId, sendAt })
-  console.log('notification', notification);
-  
-  if(notification.success) {
-    console.log('data', notification.data);
-    res.status(201).json(notification.data)
-  } else {
-    res.status(400).json({message: notification.message})
-  }
-});
+app.post('/notifications', (req, res) => createNotifications(req, res, db));
+app.post('/events', (req, res) => createEvents(req, res, db));
+app.post('/users', (req, res) => createUsers(req, res, db));
+app.put('/users', (req, res) => editUser(req, res, db));
+app.post('/user-events', (req, res) => createUserEvents(req, res, db));

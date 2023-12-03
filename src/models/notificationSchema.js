@@ -15,6 +15,7 @@ const notificationSchema = new mongoose.Schema({
   },
   eventId: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event',
     required: true,
   },
   createdAt: {
@@ -27,7 +28,7 @@ const notificationSchema = new mongoose.Schema({
   },
   sendAt: {
     type: Date,
-    required: true,
+    default: Date.now,
   },
 });
 
